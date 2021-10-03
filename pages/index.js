@@ -33,7 +33,6 @@ export default function Home() {
                 },
             });
             const data = await response.json();
-            // console.log(data);
 
             setUsers(data);
             setIsLoading(false);
@@ -52,7 +51,6 @@ export default function Home() {
                 });
                 const data = await response.json();
 
-                // console.log(data);
                 setLoggedUser(data);
                 setIsLoggedIn(true);
             }

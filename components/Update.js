@@ -6,10 +6,10 @@ const Update = ({ user, setMessage, setIsTokenSaved, setIsUpdateForm }) => {
     const [password, setPassword] = useState("");
 
     useEffect(() => {
-        setName(user.name);
-        setEmail(user.email);
-
-        // setPassword(user.password);
+        if (user) {
+            setName(user.name);
+            setEmail(user.email);
+        } else setIsUpdateForm(false);
     }, [user]);
 
     const updateHandler = async e => {
@@ -19,29 +19,37 @@ const Update = ({ user, setMessage, setIsTokenSaved, setIsUpdateForm }) => {
             return setMessage("Please fill in all fields");
         }
 
-        const uUser = { name, email, password };
+        try {
+            const response = await fetch(`/api/updateuser/${user.id}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password,
+                }),
+            });
 
-        const response = await fetch(`/api/updateuser/${user.id}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(uUser),
-        });
+            const data = await response.json();
 
-        const data = await response.json();
-        // console.log(data.accessToken);
+            if (response.status === 200) {
+                localStorage.setItem("accessToken", "Bearer " + data.accessToken);
 
-        setMessage(data.message);
-        localStorage.setItem("accessToken", "Bearer " + data.accessToken);
+                // clear form
+                setName("");
+                setEmail("");
+                setPassword("");
 
-        // clear form
-        setName("");
-        setEmail("");
-        setPassword("");
+                setIsUpdateForm(false);
+                setIsTokenSaved(prevstate => !prevstate);
+            }
 
-        setIsUpdateForm(false);
-        setIsTokenSaved(prevstate => !prevstate);
+            setMessage(data.message);
+        } catch (err) {
+            setMessage("Update failed...");
+        }
     };
     return (
         <div>

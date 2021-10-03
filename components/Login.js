@@ -17,16 +17,17 @@ const Login = ({ setIsTokenSaved, setIsLoginForm, setMessage }) => {
             });
 
             const data = await response.json();
-            // console.log(data);
 
-            localStorage.setItem("accessToken", "Bearer " + data.accessToken);
+            if (response.status === 200) {
+                localStorage.setItem("accessToken", "Bearer " + data.accessToken);
 
-            setName("");
-            setPassword("");
+                setName("");
+                setPassword("");
 
-            setMessage(data.message);
-            setIsLoginForm(false);
+                setIsLoginForm(false);
+            }
             setIsTokenSaved(prevstate => !prevstate);
+            setMessage(data.message);
         } catch (err) {
             setMessage("Login failed");
         }
