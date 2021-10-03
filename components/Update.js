@@ -59,18 +59,21 @@ const Update = ({ user, setMessage, setIsTokenSaved, setIsUpdateForm }) => {
                     type="text"
                     placeholder="Name"
                     value={name}
+                    autoComplete="name"
                     onChange={e => setName(e.target.value)}
                 />
                 <input
                     type="email"
                     placeholder="Email"
                     value={email}
+                    autoComplete="email"
                     onChange={e => setEmail(e.target.value)}
                 />
                 <input
                     type="password"
                     placeholder="Password"
                     value={password}
+                    autoComplete="current-password"
                     onChange={e => setPassword(e.target.value)}
                 />
                 <button onClick={updateHandler}>Update</button>

@@ -41,12 +41,14 @@ const Login = ({ setIsTokenSaved, setIsLoginForm, setMessage }) => {
                     placeholder="Name"
                     type="text"
                     value={name}
+                    autoComplete="name"
                     onChange={e => setName(e.target.value)}
                 />
                 <input
                     placeholder="Password"
                     type="password"
                     value={password}
+                    autoComplete="current-password"
                     onChange={e => setPassword(e.target.value)}
                 />
                 <button onClick={loginHandler}>Login</button>
